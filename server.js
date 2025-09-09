@@ -1,18 +1,28 @@
 const express = require("express");
 const dotenv = require("dotenv");
-const db = require("./config/db");
 
 dotenv.config();
+
 const app = express();
 
+// Middleware
 app.use(express.json());
 
+// Import routes
+const authRoutes = require("./routes/auth");
+const transactionRoutes = require("./routes/transactions");
+
+// Test homepage
 app.get("/", (req, res) => {
-  res.send("🚀 MFB Digital Banking API is running");
+  res.send("🚀 BAYETIN MF BANK BIDA is live on Railway!");
 });
 
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/transactions", require("./routes/transactions"));
+// Use routes
+app.use("/auth", authRoutes);
+app.use("/transactions", transactionRoutes);
 
+// Port for Railway or local
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`✅ Server running on port ${PORT}`);
+});
